@@ -14,7 +14,7 @@ export default {
     onDetected: {
       type: Function,
       default(result) {
-        this.$emit("onDetected", result);
+        // this.$emit("onDetected", result);
         console.log("detected: ", result);
       },
     },
