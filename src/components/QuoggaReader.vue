@@ -16,6 +16,7 @@ export default {
       default(result) {
         // this.$emit("onDetected", result);
         console.log("detected: ", result);
+        alert("load", JSON.stringify(result));
       },
     },
     onProcessed: {
@@ -117,7 +118,10 @@ export default {
   watch: {
     onDetected: function (oldValue, newValue) {
       if (oldValue) Quagga.offDetected(oldValue);
-      if (newValue) Quagga.onDetected(newValue);
+      if (newValue) {
+        alert("newvalue", JSON.stringify(newValue));
+        Quagga.onDetected(newValue);
+      }
     },
     onProcessed: function (oldValue, newValue) {
       if (oldValue) Quagga.offProcessed(oldValue);
