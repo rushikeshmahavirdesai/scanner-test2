@@ -14,7 +14,7 @@ export default {
     onDetected: {
       type: Function,
       default(result) {
-        alert("detected: ", result);
+        this.$emit("onDetected", result);
         console.log("detected: ", result);
       },
     },
@@ -54,7 +54,19 @@ export default {
     },
     readerTypes: {
       type: Array,
-      default: () => ["code_128_reader"],
+      default: () => [
+        "code_128_reader",
+        "ean_reader",
+        "ean_8_reader",
+        "code_39_reader",
+        "code_39_vin_reader",
+        "codabar_reader",
+        "upc_reader",
+        "upc_e_reader",
+        "i2of5_reader",
+        "2of5_reader",
+        "code_93_reader",
+      ],
     },
     readerSize: {
       type: Object,
