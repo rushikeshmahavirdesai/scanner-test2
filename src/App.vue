@@ -17,7 +17,7 @@ const onLoaded = () => (data.loading = false);
 
 const onDecode = async (text) => {
   alert("deteched");
-  data.codeResult = text;
+  data.codeResult = text.codeResult.code;
 };
 </script>
 
