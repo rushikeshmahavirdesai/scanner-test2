@@ -6,19 +6,25 @@
 </template>
 
 <script>
+// import Quagga from "quagga";
 import Quagga from "@ericblade/quagga2";
 export default {
   name: "QuaggaScanner",
   props: {
     onDetected: {
       type: Function,
-      default(result) {},
+      default(result) {
+        alert("detected: ", result);
+        console.log("detected: ", result);
+      },
     },
     onProcessed: {
       type: Function,
       default(result) {
         let drawingCtx = Quagga.canvas.ctx.overlay;
+
         let drawingCanvas = Quagga.canvas.dom.overlay;
+
         if (result) {
           if (result.boxes) {
             drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
@@ -39,6 +45,7 @@ export default {
               lineWidth: 2,
             });
           }
+
           if (result.codeResult && result.codeResult.code) {
             Quagga.ImageDebug.drawPath(result.line, { x: "x", y: "y" }, drawingCtx, { color: "red", lineWidth: 3 });
           }
@@ -47,19 +54,7 @@ export default {
     },
     readerTypes: {
       type: Array,
-      default: () => [
-        "code_128_reader",
-        "ean_reader",
-        "ean_8_reader",
-        "code_39_reader",
-        "code_39_vin_reader",
-        "codabar_reader",
-        "upc_reader",
-        "upc_e_reader",
-        "i2of5_reader",
-        "2of5_reader",
-        "code_93_reader",
-      ],
+      default: () => ["code_128_reader"],
     },
     readerSize: {
       type: Object,
@@ -84,7 +79,6 @@ export default {
   },
   data: function () {
     return {
-      isLoading: true,
       quaggaState: {
         inputStream: {
           type: "LiveStream",
@@ -110,7 +104,6 @@ export default {
   },
   watch: {
     onDetected: function (oldValue, newValue) {
-      alert(oldValue, newValue);
       if (oldValue) Quagga.offDetected(oldValue);
       if (newValue) Quagga.onDetected(newValue);
     },
@@ -141,12 +134,11 @@ export default {
 .viewport {
   position: relative;
 }
+
 .viewport canvas,
 .viewport video {
-  width: 100%;
-  /* height: 100%; */
-  /* position: absolute;
-	left: 0;
-	top: 0; */
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 </style>
