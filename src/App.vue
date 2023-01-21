@@ -16,7 +16,6 @@ const data = reactive({ loading: true, isAdding: false, codeResult: null });
 const onLoaded = () => (data.loading = false);
 
 const onDecode = async (text) => {
-  alert("deteched");
   data.codeResult = text.codeResult.code;
 };
 </script>
