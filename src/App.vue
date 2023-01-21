@@ -1,6 +1,5 @@
 <template>
   <div class="w-full flex flex-col items-center justify-center h-full">
-    <div v-if="data.loading">Loading....</div>
     <QuoggaReader @onDetected="onDecode" />
     <textarea name="" id="" cols="30" rows="10">{{ data.codeResult }}</textarea>
     <!-- <StreamBarcodeReader v-if="cart.mobileScanner" :busy="data.isAdding" @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader> -->
