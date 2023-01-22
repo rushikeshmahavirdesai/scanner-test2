@@ -1,27 +1,49 @@
 <template>
-  <div class="w-full flex flex-col items-center justify-center h-full">
-    <QuoggaReader :onDetected="onDecode" />
-    <textarea name="" id="" cols="30" rows="10">{{ data.codeResult }}</textarea>
-    <!-- <StreamBarcodeReader v-if="cart.mobileScanner" :busy="data.isAdding" @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader> -->
-  </div>
+  <video id="stream" style="width: 100vw; height: 100vh" />
 </template>
 
-<script setup>
-import { ref, reactive } from "vue";
+<script>
+export default {
+  name: "stream-barcode-reader",
+  props: {},
+  data() {
+    return {
+      barcodeDt: "hhh",
+    };
+  },
 
-import QuoggaReader from "./components/QuoggaReader.vue";
+  mounted() {
+    (async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: {
+            ideal: "environment",
+          },
+        },
+        audio: false,
+      });
+      const videoEl = document.querySelector("#stream");
+      videoEl.srcObject = stream;
+      await videoEl.play();
+      debugger;
+      const barcodeDetector = new BarcodeDetector({ formats: ["qr_code"] });
+      window.setInterval(async () => {
+        const barcodes = await barcodeDetector.detect(videoEl);
+        if (barcodes.length <= 0) return;
+        alert(barcodes.map((barcode) => barcode.rawValue));
+      }, 1000);
+    })();
+  },
 
-const data = reactive({ loading: true, isAdding: false, codeResult: null });
+  // beforeUnmount() {
+  //   this.codeReader.reset();
+  // },
 
-const onLoaded = () => (data.loading = false);
-
-const onDecode = async (text) => {
-  data.codeResult = text.codeResult.code;
+  // methods: {
+  //   onScanSuccess(decodedText, decodedResult) {
+  //     this.barcodeDt = decodedText;
+  //     this.$emit("result", decodedText, decodedResult);
+  //   },
+  // },
 };
 </script>
-
-<style scoped>
-.information {
-  margin-top: 100px;
-}
-</style>

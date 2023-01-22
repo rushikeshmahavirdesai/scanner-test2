@@ -12,6 +12,7 @@
     "@zxing/browser": "^0.1.1",
     "barcode-detector": "^1.0.0",
     "callforth": "^0.4.0",
+    "html5-qrcode": "^2.3.4",
     "quagga": "^0.12.1",
     "vue": "^3.2.45",
     "vue-barcode-reader": "^1.0.3",

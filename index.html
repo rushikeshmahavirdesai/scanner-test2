@@ -9,8 +9,30 @@
 </head>
 
 <body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
+  <video id="stream" style="width: 100vw; height: 100vh;" />
+  <script>
+    (async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: {
+            ideal: "environment"
+          }
+        },
+        audio: false
+      });
+      const videoEl = document.querySelector("#stream");
+      videoEl.srcObject = stream;
+      await videoEl.play();
+
+      const barcodeDetector = new BarcodeDetector({ formats: ['qr_code'] });
+      window.setInterval(async () => {
+        const barcodes = await barcodeDetector.detect(videoEl);
+        if (barcodes.length <= 0) return;
+        alert(barcodes.map(barcode => barcode.rawValue));
+      }, 1000)
+    })();
+
+  </script>
 </body>
 
 </html>
